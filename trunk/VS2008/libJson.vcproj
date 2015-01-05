@@ -18,7 +18,7 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(SolutionDir)\..\Projects\Libs"
+			OutputDirectory="$(SolutionDir)\"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
 			CharacterSet="2"
@@ -67,8 +67,8 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)\$(ProjectName)_debug.lib"
-				AdditionalLibraryDirectories="..\Externals"
+				OutputFile="$(OutDir)\$(ProjectName).lib"
+				AdditionalLibraryDirectories=""
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -159,20 +159,16 @@
 	<References>
 	</References>
 	<Files>
-		<Filter
-			Name="Json"
-			>
-		</Filter>
 		<File
-			RelativePath=".\Json\Exceptions.h"
+			RelativePath="..\Json\Exceptions.h"
 			>
 		</File>
 		<File
-			RelativePath=".\Json\Json.h"
+			RelativePath="..\Json\Json.h"
 			>
 		</File>
 		<File
-			RelativePath=".\Json\Parser.cpp"
+			RelativePath="..\Json\Parser.cpp"
 			>
 			<FileConfiguration
 				Name="Debug|Win32"
@@ -192,15 +188,11 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath=".\Json\Parser.h"
+			RelativePath="..\Json\Parser.h"
 			>
 		</File>
 		<File
-			RelativePath="..\TestSuite\TestSuite.vcproj"
-			>
-		</File>
-		<File
-			RelativePath=".\Json\Token.cpp"
+			RelativePath="..\Json\Token.cpp"
 			>
 			<FileConfiguration
 				Name="Debug|Win32"
@@ -220,43 +212,11 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath=".\Json\Token.h"
+			RelativePath="..\Json\Token.h"
 			>
 		</File>
 		<File
-			RelativePath=".\Json\Tokenizer.cpp"
-			>
-			<FileConfiguration
-				Name="Debug|Win32"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					ObjectFile="$(IntDir)\Json\"
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Win32"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					ObjectFile="$(IntDir)\Json\"
-				/>
-			</FileConfiguration>
-		</File>
-		<File
-			RelativePath=".\Json\Tokenizer.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Json\Types.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Json\Utils.h"
-			>
-		</File>
-		<File
-			RelativePath=".\Json\Value.cpp"
+			RelativePath="..\Json\Tokenizer.cpp"
 			>
 			<FileConfiguration
 				Name="Debug|Win32"
@@ -276,11 +236,19 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath=".\Json\Value.h"
+			RelativePath="..\Json\Tokenizer.h"
 			>
 		</File>
 		<File
-			RelativePath=".\Json\Writer.cpp"
+			RelativePath="..\Json\Types.h"
+			>
+		</File>
+		<File
+			RelativePath="..\Json\Utils.h"
+			>
+		</File>
+		<File
+			RelativePath="..\Json\Value.cpp"
 			>
 			<FileConfiguration
 				Name="Debug|Win32"
@@ -300,7 +268,31 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath=".\Json\Writer.h"
+			RelativePath="..\Json\Value.h"
+			>
+		</File>
+		<File
+			RelativePath="..\Json\Writer.cpp"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					ObjectFile="$(IntDir)\Json\"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					ObjectFile="$(IntDir)\Json\"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="..\Json\Writer.h"
 			>
 		</File>
 	</Files>

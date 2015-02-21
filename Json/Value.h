@@ -83,10 +83,7 @@ public:
 	bool isArrayElement() const;
 	void isArrayElement(bool value);
 
-	//bool insert(const Value& v);
-
 	void addMember(const std::string& key, const Value& member = Value());
-	//const Value& getMember(const std::string& key);
 	bool isMember(const std::string& member) const;
 	const Members& members() const;
 	bool removeMember(const std::string& member);
@@ -98,8 +95,6 @@ public:
 
 	Type::E type() const;
 	void type(Type::E type);
-
-	//void value(const std::string& value);
 
 public:
 	std::string toStyledString() const;

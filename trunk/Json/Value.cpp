@@ -172,18 +172,6 @@ Value::Members::const_iterator Value::find(const std::string& key) const
 	return mMembers.end();
 }
 
-/*
-bool Value::insert(const Value& v)
-{
-	if ( find(v.key()) == mMembers.end() ) {
-		mMembers.push_back(v);
-		return true;
-	}
-
-	return false;
-}
-*/
-
 bool Value::isArray() const
 {
 	return (mType == Type::ARRAY);
@@ -386,20 +374,6 @@ void Value::type(Value::Type::E type)
 {
 	mType = type;
 }
-
-//void Value::value(const std::string& value)
-//{
-//	mValue = value;
-//}
-
-//Value& Value::operator[] (void)
-//{
-//	Value v;
-//	v.key(toString(mMembers.size()));
-//
-//	mMembers.push_back(v);
-//	return mMembers.back();
-//}
 
 Value& Value::operator[] (size_t idx)
 {

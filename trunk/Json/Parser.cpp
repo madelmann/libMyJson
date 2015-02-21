@@ -16,22 +16,6 @@
 
 namespace Json {
 
-bool _is_array_ = false;
-
-
-Value::Type::E guessType(const Token& t)
-{
-	if ( t.content().empty() )
-		return Value::Type::NIL;
-	if ( t.type() == Token::Type::LITERAL )
-		return Value::Type::STRING;
-	if ( t.content() == "true" || t.content() == "false" )
-		return Value::Type::BOOL;
-	if ( t.content()[0] == '\"' )
-		return Value::Type::STRING;
-
-	return Value::Type::UNDEFINED;
-}
 
 Value Parser::parse(const std::string& msg)
 {

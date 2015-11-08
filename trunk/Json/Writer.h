@@ -21,7 +21,7 @@ class Writer
 {
 public:
 	Writer();
-	virtual ~Writer() { }
+	virtual ~Writer();
 
 public:
 	virtual std::string toString(const Value& root, unsigned int indents = 0);

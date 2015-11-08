@@ -19,6 +19,10 @@ Writer::Writer()
 {
 }
 
+Writer::~Writer()
+{
+}
+
 std::string Writer::indent(unsigned int num)
 {
 	std::string result;
@@ -70,7 +74,8 @@ std::string Writer::toString(const Value& root, unsigned int indents)
 				break;
 			case Value::Type::ARRAY:
 				if ( !v.size() ) {
-					result += "[ ]" + mWhiteSpaceEnd;
+					result += "[" + mWhiteSpaceStart;
+					result += mWhiteSpaceStart + "]" + mWhiteSpaceEnd;
 				}
 				else {
 					result += "[" + mWhiteSpaceStart;

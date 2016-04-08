@@ -97,6 +97,7 @@ public:
 	void type(Type::E type);
 
 public:
+	std::string toString() const;
 	std::string toStyledString() const;
 
 public:

@@ -328,6 +328,11 @@ size_t Value::size() const
 	return mMembers.size();
 }
 
+std::string Value::toString() const
+{
+	return toStyledString();
+}
+
 std::string Value::toStyledString() const
 {
 	if ( isArrayElement() && !isObject() ) {

@@ -2,6 +2,7 @@ INCLUDE(${PROJECT_SOURCE_DIR}/CMake/Base.cmake)
 
 SET(SOURCES
 	Parser.cpp
+	Reader.cpp
 	Token.cpp
 	Tokenizer.cpp
 #	Utils.cpp
@@ -13,6 +14,7 @@ SET(HEADERS
 	Exceptions.h
 	Json.h
 	Parser.h
+	Reader.h
 	Token.h
 	Tokenizer.h
 	Types.h
@@ -27,3 +29,4 @@ SET(DEPENDENCIES
 add_include(Json)
 
 build_static_lib(Json "")
+

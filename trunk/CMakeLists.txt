@@ -1,4 +1,4 @@
-PROJECT(libJson)
+PROJECT(libMyJson)
 
 INCLUDE(${PROJECT_SOURCE_DIR}/CMake/Base.cmake)
 

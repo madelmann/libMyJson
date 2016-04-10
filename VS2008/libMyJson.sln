@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual C++ Express 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Json", "libJson.vcproj", "{69E7C21F-F7B3-4019-9ABB-ED9B0B4A599B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MyJson", "libMyJson.vcproj", "{69E7C21F-F7B3-4019-9ABB-ED9B0B4A599B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

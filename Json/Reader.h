@@ -21,13 +21,13 @@ class Tokenizer;
 class Reader
 {
 public:
-	bool parse(const std::string& msg, Value& value);
+	bool parse(const std::string& msg, Value& root);
 
 protected:
 
 private:
-	bool parseArray(Tokenizer* t, Value& value);
-	bool parseObject(Tokenizer* t, Value& value);
+	bool parseArray(Tokenizer* t, Value& root);
+	bool parseObject(Tokenizer* t, Value& root);
 };
 
 

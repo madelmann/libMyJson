@@ -93,6 +93,8 @@ public:
 	const Members& members() const;
 	bool removeMember(const std::string& member);
 
+	Members::iterator insert(const Value& value);
+
 	size_t size() const;
 
 	const std::string& key() const;
@@ -106,26 +108,18 @@ public:
 	std::string toStyledString() const;
 
 public:
-	//Value& operator[] (void);
+	Value& operator= (const Value& other);
+	bool operator== (const Value& other) const;
+	bool operator< (const Value& other) const;
+	bool operator() (const Value& first, const Value& second) const;
+
 	Value& operator[] (size_t idx);
 	Value& operator[] (const char* key);
 	Value& operator[] (const std::string& key);
-	Value& operator= (const Value& other);
 
 	Value operator[] (size_t idx) const;
 	Value operator[] (const char* key) const;
 	Value operator[] (const std::string& key) const;
-
-public:
-	bool operator== (const Value& other) const {
-		return (this->key() == other.key());
-	}
-	bool operator< (const Value& other) const {
-		return (this->key() < other.key());
-	}
-	bool operator() (const Value& first, const Value& second) const {
-		return (first.key() != second.key());
-	}
 
 protected:
 

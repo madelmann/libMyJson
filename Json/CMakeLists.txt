@@ -17,7 +17,6 @@ SET(HEADERS
 	Reader.h
 	Token.h
 	Tokenizer.h
-	Types.h
 	Utils.h
 	Value.h
 	Writer.h

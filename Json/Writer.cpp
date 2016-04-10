@@ -54,8 +54,8 @@ std::string Writer::toString(const Value& root, unsigned int indents)
 		result += (*it).key();
 		result += "\": ";
 
-		Value v = (*it);
-		switch ( v.type() ) {
+		Value value = (*it);
+		switch ( value.type() ) {
 			case Value::Type::NIL:
 				result += "null";
 				break;
@@ -65,22 +65,22 @@ std::string Writer::toString(const Value& root, unsigned int indents)
 			case Value::Type::INT:
 			case Value::Type::UINT:
 			case Value::Type::UNDEFINED:
-				if ( !v.isArrayElement() )
-					result += v.asString();
+				if ( !value.isArrayElement() )
+					result += value.asString();
 				break;
 			case Value::Type::STRING:
-				if ( !v.isArrayElement() )
-					result += "\"" + v.asString() + "\"";
+				if ( !value.isArrayElement() )
+					result += "\"" + value.asString() + "\"";
 				break;
 			case Value::Type::ARRAY:
-				if ( !v.size() ) {
+				if ( !value.size() ) {
 					result += "[" + mWhiteSpaceStart;
 					result += mWhiteSpaceStart + "]" + mWhiteSpaceEnd;
 				}
 				else {
 					result += "[" + mWhiteSpaceStart;
 
-					Value::Members members = v.members();
+					Value::Members members = value.members();
 					Value::Members::const_iterator it = members.begin();
 
 					while ( it != members.end() ) {
@@ -97,12 +97,12 @@ std::string Writer::toString(const Value& root, unsigned int indents)
 				}
 				break;
 			case Value::Type::OBJECT:
-				if ( !v.size() ) {
+				if ( !value.size() ) {
 					result += "{ }" + mWhiteSpaceEnd;
 				}
 				else {
 					result += "{" + mWhiteSpaceStart;
-					result += toString(v, indents + 1);
+					result += toString(value, indents + 1);
 					result += mWhiteSpaceStart + indent(indents + 1) + "}";
 				}
 				break;

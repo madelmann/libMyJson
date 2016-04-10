@@ -3,6 +3,7 @@
 #include "Value.h"
 
 // Library includes
+#include <algorithm>
 
 // Project includes
 #include "Exceptions.h"
@@ -76,15 +77,9 @@ Value::Value(size_t value)
 
 void Value::addMember(const std::string& key, const Value& member)
 {
-#ifdef JSON_VALUE_SET
-	if ( mMembers.find(key) != mMembers.end() ) {
-		throw Exceptions::DuplicateKey(key);
-	}
-#elif defined JSON_VALUE_VECTOR
 	if ( find(key) != mMembers.end() ) {
 		throw Exceptions::DuplicateKey(key);
 	}
-#endif
 
 	if ( mType == Type::NIL ) {
 		mType = Type::OBJECT;
@@ -93,7 +88,9 @@ void Value::addMember(const std::string& key, const Value& member)
 	Value v = member;
 	v.key(key);
 
-#ifdef JSON_VALUE_SET
+#ifdef JSON_VALUE_MAP
+	mMembers.insert(std::make_pair(key, v));
+#elif defined JSON_VALUE_SET
 	mMembers.insert(v);
 #elif defined JSON_VALUE_VECTOR
 	mMembers.push_back(v);
@@ -152,6 +149,7 @@ unsigned int Value::asUInt() const
 
 Value::Members::iterator Value::find(const std::string& key)
 {
+/*
 	for ( Members::iterator it = mMembers.begin(); it != mMembers.end(); ++it ) {
 		if ( it->key() == key ) {
 			return it;
@@ -159,10 +157,13 @@ Value::Members::iterator Value::find(const std::string& key)
 	}
 
 	return mMembers.end();
+*/
+	return std::find(mMembers.begin(), mMembers.end(), key);
 }
 
 Value::Members::const_iterator Value::find(const std::string& key) const
 {
+/*
 	for ( Members::const_iterator it = mMembers.begin(); it != mMembers.end(); ++it ) {
 		if ( it->key() == key ) {
 			return it;
@@ -170,6 +171,8 @@ Value::Members::const_iterator Value::find(const std::string& key) const
 	}
 
 	return mMembers.end();
+*/
+	return std::find(mMembers.begin(), mMembers.end(), key);
 }
 
 bool Value::isArray() const
@@ -244,11 +247,19 @@ const Value::Members& Value::members() const
 
 bool Value::removeMember(const std::string& member)
 {
+/*
 	for ( Members::iterator it = mMembers.begin(); it != mMembers.end(); ++it ) {
 		if ( it->key() == member ) {
 			mMembers.erase(it);
 			return true;
 		}
+	}
+*/
+	Members::iterator it = find(member);
+
+	if ( it != mMembers.end() ) {
+		mMembers.erase(it);
+		return true;
 	}
 
 	return false;
@@ -257,15 +268,18 @@ bool Value::removeMember(const std::string& member)
 std::string Value::printArray(const Value& v) const
 {
 	if ( v.size() ) {
-		Members members = v.members();
-		Members::const_iterator it = members.begin();
+		Members::const_iterator it = v.members().begin();
 
 		std::string result;
-		while ( it != members.end() ) {
+		while ( it != v.members().end() ) {
+#ifdef JSON_VALUE_MAP
+			result += it->second->toStyledString();
+#else
 			result += it->toStyledString();
+#endif
 			it++;
 
-			if ( it != members.end() ) {
+			if ( it != v.members().end() ) {
 				result += ",";
 			}
 		}
@@ -391,24 +405,18 @@ Value& Value::operator[] (size_t idx)
 	Value v;
 	v.key(key);
 
-#ifdef JSON_VALUE_SET
-	Members::iterator it = mMembers.find(v);
-	if ( it != mMembers.end() ) {
-		(*it).isArrayElement(true);
-		return (*it);
-	}
-#elif defined JSON_VALUE_VECTOR
 	Members::iterator it = find(key);
 	if ( it != mMembers.end() ) {
 		(*it).isArrayElement(true);
 		return (*it);
 	}
-#endif
 
-#ifdef JSON_VALUE_SET
+#ifdef JSON_VALUE_MAP
+	mMembers.insert(std::make_pair(key, v));
+#elif defined JSON_VALUE_SET
 	std::pair<Members::iterator, bool> p = mMembers.insert(v);
 	if ( !p.second ) {
-		throw Exceptions::JSONException("could not insert object");
+		throw Exceptions::Exception("could not insert object");
 	}
 
 	return *p.first;
@@ -427,22 +435,17 @@ Value& Value::operator[] (const char* key)
 	Value v;
 	v.key(key);
 
-#ifdef JSON_VALUE_SET
-	Members::iterator it = mMembers.find(v);
-	if ( it != mMembers.end() ) {
-		return (*it);
-	}
-#elif defined JSON_VALUE_VECTOR
 	Members::iterator it = find(key);
 	if ( it != mMembers.end() ) {
 		return (*it);
 	}
-#endif
 
-#ifdef JSON_VALUE_SET
+#ifdef JSON_VALUE_MAP
+	mMembers.insert(std::make_pair(key, v));
+#elif defined JSON_VALUE_SET
 	std::pair<Members::iterator, bool> p = mMembers.insert(v);
 	if ( !p.second ) {
-		throw Exceptions::JSONException("could not insert object");
+		throw Exceptions::Exception("could not insert object");
 	}
 
 	return *p.first;
@@ -461,22 +464,17 @@ Value& Value::operator[] (const std::string& key)
 	Value v;
 	v.key(key);
 
-#ifdef JSON_VALUE_SET
-	Members::iterator it = mMembers.find(v);
-	if ( it != mMembers.end() ) {
-		return (*it);
-	}
-#elif defined JSON_VALUE_VECTOR
 	Members::iterator it = find(key);
 	if ( it != mMembers.end() ) {
 		return (*it);
 	}
-#endif
 
-#ifdef JSON_VALUE_SET
+#ifdef JSON_VALUE_MAP
+	mMembers.insert(std::make_pair(key, v));
+#elif defined JSON_VALUE_SET
 	std::pair<Members::iterator, bool> p = mMembers.insert(v);
 	if ( !p.second ) {
-		throw Exceptions::JSONException("could not insert object");
+		throw Exceptions::Exception("could not insert object");
 	}
 
 	return *p.first;
@@ -499,51 +497,30 @@ Value& Value::operator= (const Value& other)
 
 Value Value::operator[] (size_t idx) const
 {
-#ifdef JSON_VALUE_SET
-	Members::const_iterator it = mMembers.find(toString(idx));
-	if ( it != mMembers.end() ) {
-		return (*it);
-	}
-#elif defined JSON_VALUE_VECTOR
 	Members::const_iterator it = find(Utils::toString(idx));
 	if ( it != mMembers.end() ) {
 		return (*it);
 	}
-#endif
 
 	throw Exceptions::InvalidArrayIndex(Utils::toString(idx));
 }
 
 Value Value::operator[] (const char* key) const
 {
-#ifdef JSON_VALUE_SET
-	Members::const_iterator it = mMembers.find(key);
-	if ( it != mMembers.end() ) {
-		return (*it);
-	}
-#elif defined JSON_VALUE_VECTOR
 	Members::const_iterator it = find(key);
 	if ( it != mMembers.end() ) {
 		return (*it);
 	}
-#endif
 
 	return Value();
 }
 
 Value Value::operator[] (const std::string& key) const
 {
-#ifdef JSON_VALUE_SET
-	Members::const_iterator it = mMembers.find(key);
-	if ( it != mMembers.end() ) {
-		return (*it);
-	}
-#elif defined JSON_VALUE_VECTOR
 	Members::const_iterator it = find(key);
 	if ( it != mMembers.end() ) {
 		return (*it);
 	}
-#endif
 
 	return Value();
 }

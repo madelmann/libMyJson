@@ -3,15 +3,18 @@
 #define Json_Value_h
 
 
+//#define JSON_VALUE_MAP
 //#define JSON_VALUE_SET
 #define JSON_VALUE_VECTOR
 
 // Library includes
 #include <string>
-#ifdef JSON_VALUE_SET
-	#include <set>
+#ifdef JSON_VALUE_MAP
+#	include <map>
+#elif defined JSON_VALUE_SET
+#	include <set>
 #elif defined JSON_VALUE_VECTOR
-	#include <vector>
+#	include <vector>
 #endif
 
 // Project includes
@@ -27,7 +30,9 @@ namespace Json {
 class Value
 {
 public:
-#ifdef JSON_VALUE_SET
+#ifdef JSON_VALUE_MAP
+	typedef std::map<std::string, Value> Members;
+#elif defined JSON_VALUE_SET
 	typedef std::set<Value> Members;
 #elif defined JSON_VALUE_VECTOR
 	typedef std::vector<Value> Members;

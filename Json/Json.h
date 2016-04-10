@@ -8,6 +8,7 @@
 // Project includes
 #include "Exceptions.h"
 #include "Parser.h"
+#include "Reader.h"
 #include "Value.h"
 #include "Writer.h"
 

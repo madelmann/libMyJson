@@ -8,11 +8,11 @@ SET(HEADERS
 )
 
 SET(DEPENDENCIES
-	Json
+	MyJson
 )
 
 add_include(Json)
 
-SET(EXECUTABLE_OUTPUT_PATH ${EXECUTABLE_OUTPUT_PATH}/Test)
-build_app(JsonTestApp "")
+SET(EXECUTABLE_OUTPUT_PATH ${EXECUTABLE_OUTPUT_PATH}/MyJsonTestApp)
+build_app(MyJsonTestApp "")
 

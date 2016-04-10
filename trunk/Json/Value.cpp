@@ -88,13 +88,7 @@ void Value::addMember(const std::string& key, const Value& member)
 	Value v = member;
 	v.key(key);
 
-#ifdef JSON_VALUE_MAP
-	mMembers.insert(std::make_pair(key, v));
-#elif defined JSON_VALUE_SET
-	mMembers.insert(v);
-#elif defined JSON_VALUE_VECTOR
-	mMembers.push_back(v);
-#endif
+	insert(v);
 }
 
 bool Value::asBool() const
@@ -149,30 +143,25 @@ unsigned int Value::asUInt() const
 
 Value::Members::iterator Value::find(const std::string& key)
 {
-/*
-	for ( Members::iterator it = mMembers.begin(); it != mMembers.end(); ++it ) {
-		if ( it->key() == key ) {
-			return it;
-		}
-	}
-
-	return mMembers.end();
-*/
 	return std::find(mMembers.begin(), mMembers.end(), key);
 }
 
 Value::Members::const_iterator Value::find(const std::string& key) const
 {
-/*
-	for ( Members::const_iterator it = mMembers.begin(); it != mMembers.end(); ++it ) {
-		if ( it->key() == key ) {
-			return it;
-		}
-	}
-
-	return mMembers.end();
-*/
 	return std::find(mMembers.begin(), mMembers.end(), key);
+}
+
+Value::Members::iterator Value::insert(const Value& value)
+{
+#ifdef JSON_VALUE_MAP
+	return mMembers.insert(std::make_pair(value.key(), value));
+#elif defined JSON_VALUE_SET
+	mMembers.insert(value);
+	return mMembers.end();
+#elif defined JSON_VALUE_VECTOR
+	mMembers.push_back(value);
+	return mMembers.end();
+#endif
 }
 
 bool Value::isArray() const
@@ -402,8 +391,8 @@ Value& Value::operator[] (size_t idx)
 
 	std::string key = Utils::toString(idx);
 
-	Value v;
-	v.key(key);
+	Value value;
+	value.key(key);
 
 	Members::iterator it = find(key);
 	if ( it != mMembers.end() ) {
@@ -411,19 +400,8 @@ Value& Value::operator[] (size_t idx)
 		return (*it);
 	}
 
-#ifdef JSON_VALUE_MAP
-	mMembers.insert(std::make_pair(key, v));
-#elif defined JSON_VALUE_SET
-	std::pair<Members::iterator, bool> p = mMembers.insert(v);
-	if ( !p.second ) {
-		throw Exceptions::Exception("could not insert object");
-	}
-
-	return *p.first;
-#elif defined JSON_VALUE_VECTOR
-	mMembers.push_back(v);
-	return mMembers.back();
-#endif
+	it = insert(value);
+	return (*it);
 }
 
 Value& Value::operator[] (const char* key)
@@ -432,27 +410,16 @@ Value& Value::operator[] (const char* key)
 		mType = Type::OBJECT;
 	}
 
-	Value v;
-	v.key(key);
+	Value value;
+	value.key(key);
 
 	Members::iterator it = find(key);
 	if ( it != mMembers.end() ) {
 		return (*it);
 	}
 
-#ifdef JSON_VALUE_MAP
-	mMembers.insert(std::make_pair(key, v));
-#elif defined JSON_VALUE_SET
-	std::pair<Members::iterator, bool> p = mMembers.insert(v);
-	if ( !p.second ) {
-		throw Exceptions::Exception("could not insert object");
-	}
-
-	return *p.first;
-#elif defined JSON_VALUE_VECTOR
-	mMembers.push_back(v);
-	return mMembers.back();
-#endif
+	it = insert(value);
+	return (*it);
 }
 
 Value& Value::operator[] (const std::string& key)
@@ -461,27 +428,16 @@ Value& Value::operator[] (const std::string& key)
 		mType = Type::OBJECT;
 	}
 
-	Value v;
-	v.key(key);
+	Value value;
+	value.key(key);
 
 	Members::iterator it = find(key);
 	if ( it != mMembers.end() ) {
 		return (*it);
 	}
 
-#ifdef JSON_VALUE_MAP
-	mMembers.insert(std::make_pair(key, v));
-#elif defined JSON_VALUE_SET
-	std::pair<Members::iterator, bool> p = mMembers.insert(v);
-	if ( !p.second ) {
-		throw Exceptions::Exception("could not insert object");
-	}
-
-	return *p.first;
-#elif defined JSON_VALUE_VECTOR
-	mMembers.push_back(v);
-	return mMembers.back();
-#endif
+	it = insert(value);
+	return (*it);
 }
 
 Value& Value::operator= (const Value& other)
@@ -493,6 +449,21 @@ Value& Value::operator= (const Value& other)
 	this->mValue = other.mValue;
 
 	return *this;
+}
+
+bool Value::operator== (const Value& other) const
+{
+	return (this->key() == other.key());
+}
+
+bool Value::operator< (const Value& other) const
+{
+	return (this->key() < other.key());
+}
+
+bool Value::operator() (const Value& first, const Value& second) const
+{
+	return (first.key() != second.key());
 }
 
 Value Value::operator[] (size_t idx) const

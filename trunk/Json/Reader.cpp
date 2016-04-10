@@ -3,8 +3,6 @@
 #include "Reader.h"
 
 // Library includes
-#include <assert.h>
-#include <list>
 
 // Project includes
 #include "Exceptions.h"
@@ -17,7 +15,7 @@
 namespace Json {
 
 
-bool Reader::parse(const std::string& msg, Value& value)
+bool Reader::parse(const std::string& msg, Value& root)
 {
 	bool result = false;
 
@@ -29,7 +27,7 @@ bool Reader::parse(const std::string& msg, Value& value)
 		tokenizer.next();
 
 		// start the real parsing
-		result = parseObject(&tokenizer, value);
+		result = parseObject(&tokenizer, root);
 
 		if ( tokenizer.getToken().type() != Token::Type::BRACKET_CURLY_CLOSE ) {
 			throw Exceptions::InvalidJsonString(msg);
@@ -39,7 +37,7 @@ bool Reader::parse(const std::string& msg, Value& value)
 	return result;
 }
 
-bool Reader::parseArray(Tokenizer *t, Value& value)
+bool Reader::parseArray(Tokenizer *t, Value& root)
 {
 	bool result = false;
 
@@ -52,28 +50,28 @@ bool Reader::parseArray(Tokenizer *t, Value& value)
 			t->next();
 
 			// start reading object
-			Value v;
-			parseObject(t, v);
-			v.isArrayElement(true);
+			Value value;
+			parseObject(t, value);
+			value.isArrayElement(true);
 
-			value[value.size()] = v;
+			root.insert(value);
 		}
 		else if ( t->getToken().type() == Token::Type::BRACKET_OPEN ) {
 			t->next();
 
 			// start reading array
-			Value v;
-			parseArray(t, v);
-			v.isArrayElement(true);
+			Value value;
+			parseArray(t, value);
+			value.isArrayElement(true);
 
-			value[value.size()] = v;
+			root.insert(value);
 		}
 		else {
 			// start reading element
-			Value v(t->getToken().content());
-			v.isArrayElement(true);
+			Value value(t->getToken().content());
+			value.isArrayElement(true);
 
-			value[value.size()] = v;
+			root.insert(value);
 		}
 
 		t->next();
@@ -85,7 +83,7 @@ bool Reader::parseArray(Tokenizer *t, Value& value)
 	return result;
 }
 
-bool Reader::parseObject(Tokenizer* t, Value& value)
+bool Reader::parseObject(Tokenizer* t, Value& root)
 {
 	bool result = false;
 
@@ -96,7 +94,7 @@ bool Reader::parseObject(Tokenizer* t, Value& value)
 	while ( t->hasNext() && t->getToken().type() != Token::Type::BRACKET_CURLY_CLOSE ) {
 		std::string key = t->getToken().content();
 
-		Value v;
+		Value value;
 
 		if ( t->hasNext() ) {
 			t->next();
@@ -107,21 +105,21 @@ bool Reader::parseObject(Tokenizer* t, Value& value)
 			if ( t->getToken().type() == Token::Type::BRACKET_OPEN ) {
 				t->next();
 
-				parseArray(t, v);
+				parseArray(t, value);
 			}
 			else if ( t->getToken().type() == Token::Type::BRACKET_CURLY_OPEN ) {
 				t->next();
 
-				parseObject(t, v);
+				parseObject(t, value);
 			}
 			else {
-				v = Value(t->getToken().content());
+				value = Value(t->getToken().content());
 			}
 
 			t->next();
 		}
 
-		value.addMember(key, v);
+		root.addMember(key, value);
 
 		if ( t->getToken().type() == Token::Type::COLON ) {
 			t->next();

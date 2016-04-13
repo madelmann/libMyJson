@@ -160,7 +160,7 @@ Value::Members::iterator Value::insert(const Value& value)
 	return mMembers.end();
 #elif defined JSON_VALUE_VECTOR
 	mMembers.push_back(value);
-	return mMembers.end();
+	return find(value.key());
 #endif
 }
 

@@ -5,7 +5,7 @@ SET(SOURCES
 	Reader.cpp
 	Token.cpp
 	Tokenizer.cpp
-#	Utils.cpp
+	Utils.cpp
 	Value.cpp
 	Writer.cpp
 )
@@ -27,5 +27,5 @@ SET(DEPENDENCIES
 
 add_include(Json)
 
-build_static_lib(MyJson "")
+build_static_lib(Json "")
 

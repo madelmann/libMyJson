@@ -35,10 +35,7 @@ elseif("${MYJSON_BUILD}" MATCHES "Release")
 
     # MESSAGE("Setting default build to: Release")
     SET(CMAKE_BUILD_TYPE "Release")
-    SET(CMAKE_CXX_FLAGS "")
-
-    # do less logging
-    add_definitions(-DMYJSON_NO_DEBUG_LOG)
+    SET(CMAKE_CXX_FLAGS "-O3")
 
     # suppress "veraltete Konvertierung von Zeichenkettenkonstante in »char*« [-Werror=write-strings]"
     add_definitions(-Wno-write-strings)

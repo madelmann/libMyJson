@@ -67,7 +67,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)\$(ProjectName).lib"
+				OutputFile="..\Libs\$(ProjectName).lib"
 				AdditionalLibraryDirectories=""
 			/>
 			<Tool
@@ -137,7 +137,8 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalLibraryDirectories="..\Externals"
+				OutputFile="..\Libs\$(ProjectName).lib"
+				AdditionalLibraryDirectories=""
 			/>
 			<Tool
 				Name="VCALinkTool"

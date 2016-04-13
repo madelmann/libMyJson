@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="libMyJson"
+	Name="Json"
 	ProjectGUID="{69E7C21F-F7B3-4019-9ABB-ED9B0B4A599B}"
 	RootNamespace="Json"
 	Keyword="Win32Proj"

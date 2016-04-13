@@ -8,7 +8,7 @@ SET(HEADERS
 )
 
 SET(DEPENDENCIES
-	MyJson
+	Json
 )
 
 add_include(Json)

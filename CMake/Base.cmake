@@ -15,27 +15,27 @@ SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)   # binary root
 SET(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)      # library root
 
 #SET(CMAKE_CXX_FLAGS "-ansi -pedantic -fPIC -Wall -Werror -Wunused -Wno-long-long -Wnon-virtual-dtor") # -std=c++0x ;-(
-SET(CMAKE_CXX_FLAGS "-pedantic -fPIC -Wall -Werror -Wunused -Wno-long-long -Wnon-virtual-dtor") # -std=c++0x ;-(
+SET(CMAKE_CXX_FLAGS "-pedantic -fPIC -Wall -Werror -Wunused -Wno-long-long -Wnon-virtual-dtor -std=c++11")
 
-if( "${MYJSON_BUILD}" STREQUAL "" OR "${MYJSON_BUILD}" MATCHES "Debug")
+if( "${BUILD}" STREQUAL "" OR "${BUILD}" MATCHES "Debug")
 
     # by default we build debug!
     # MESSAGE("Setting default build to: Debug")
     SET(CMAKE_BUILD_TYPE "Debug")
 
     # do more logging
-    add_definitions(-DMYJSON_DEBUG)
+    add_definitions(-DDEBUG)
 
     # suppress "veraltete Konvertierung von Zeichenkettenkonstante in »char*« [-Werror=write-strings]"
     add_definitions(-Wno-write-strings)
 
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wextra")
 
-elseif("${MYJSON_BUILD}" MATCHES "Release")
+elseif("${BUILD}" MATCHES "Release")
 
     # MESSAGE("Setting default build to: Release")
     SET(CMAKE_BUILD_TYPE "Release")
-    SET(CMAKE_CXX_FLAGS "-O3")
+    SET(CMAKE_CXX_FLAGS "-std=c++11 -O3")
 
     # suppress "veraltete Konvertierung von Zeichenkettenkonstante in »char*« [-Werror=write-strings]"
     add_definitions(-Wno-write-strings)
@@ -44,7 +44,7 @@ elseif("${MYJSON_BUILD}" MATCHES "Release")
 
 else()
 
-    MESSAGE(FATAL_ERROR "Specify a valid build type: cmake -DMYJSON_BUILD=Release|Debug")
+    MESSAGE(FATAL_ERROR "Specify a valid build type: cmake -DBUILD=Release|Debug")
 
 endif()
 

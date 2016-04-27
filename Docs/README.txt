@@ -1,30 +1,33 @@
-* Introduction:
-  =============
+Introduction:
+=============
 
 JSON (JavaScript Object Notation) is a lightweight data-interchange format. 
 It can represent integer, real number, string, an ordered sequence of 
 value, and a collection of name/value pairs.
 
-MyJson is a simple API to manipulate JSON value, handle serialization 
+libMyJson is a simple API to manipulate JSON value, handle serialization 
 and unserialization to string.
 
-It can also preserve existing comment in unserialization/serialization steps,
-making it a convenient format to store user input files.
+Trivia:
+-------
 
-Unserialization parsing is user friendly and provides precise error reports.
+libMyJson is a small (as in lines of code) and leightweight (as in memory
+footprint) JSON implementation which has been written and used as an data
+interchange interface as part of a commercial project for a leading medical
+university in austria.
 
 
-* Building/Testing:
-  =================
+Building:
+=========
 
-MyJson uses the CMake build system as well as it provides a Visual Studio
+libMyJson uses the CMake build system as well as it provides a Visual Studio
 project and solution file.
 
 
 CMake:
 ------
 
-To build on CMake on would use the following command:
+To build on CMake one would use the following command:
 
 cmake [-G <your desired generator>] -DBUILD=Debug|Release <path-to-source>
 
@@ -37,3 +40,10 @@ Visual Studio:
 
 Open the solution file that comes with MyJson and hit "Build".
 
+
+Testing:
+========
+
+libMyJson comes with a very little testing program, that has been used to compare
+its parsing performance with other JSON libraries. Spoiler: if you're looking
+for speed consider using json-cpp which is way faster than libMyJson.

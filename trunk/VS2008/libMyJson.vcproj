@@ -67,7 +67,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\Libs\$(ProjectName).lib"
+				OutputFile="..\Libs\$(ProjectName)_debug.lib"
 				AdditionalLibraryDirectories=""
 			/>
 			<Tool

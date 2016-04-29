@@ -1,6 +1,6 @@
 
 EXCLUDE=*.sh
-RELEASE="libMyJson-`cat version`.tar.gz"
+RELEASE="libMyJson-`cat version`_`svnversion`.tar.gz"
 
 echo "Packing files for release ${RELEASE} ..."
 

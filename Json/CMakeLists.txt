@@ -1,6 +1,7 @@
 INCLUDE(${PROJECT_SOURCE_DIR}/CMake/Base.cmake)
 
 SET(SOURCES
+	AtomicValue.cpp
 	Parser.cpp
 	Reader.cpp
 	Token.cpp
@@ -11,6 +12,7 @@ SET(SOURCES
 )
 
 SET(HEADERS
+	AtomicValue.h
 	Exceptions.h
 	Json.h
 	Parser.h

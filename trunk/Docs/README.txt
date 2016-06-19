@@ -12,7 +12,7 @@ Trivia:
 -------
 
 libMyJson is a small (as in lines of code) and leightweight (as in memory
-footprint) JSON implementation which has been written and used as an data
+footprint) JSON implementation which has been written and used as a data
 interchange interface as part of a commercial project for a leading medical
 university in austria.
 
@@ -27,7 +27,7 @@ project and solution file.
 CMake:
 ------
 
-To build on CMake one would use the following command:
+To build with CMake one would use the following command:
 
 cmake [-G <your desired generator>] -DBUILD=Debug|Release <path-to-source>
 
@@ -38,7 +38,7 @@ cmake -G "Eclipse CDT4 - Unix Makefiles" -DBUILD=Debug ../src/
 Visual Studio:
 --------------
 
-Open the solution file that comes with MyJson and hit "Build".
+Open the solution file that comes with libMyJson and hit "Build".
 
 
 Testing:
@@ -47,3 +47,4 @@ Testing:
 libMyJson comes with a very little testing program, that has been used to compare
 its parsing performance with other JSON libraries. Spoiler: if you're looking
 for speed consider using json-cpp which is way faster than libMyJson.
+

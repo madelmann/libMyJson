@@ -18,6 +18,7 @@
 #endif
 
 // Project includes
+#include "AtomicValue.h"
 
 // Forward declarations
 
@@ -44,6 +45,7 @@ public:
 		enum E {
 			NIL,
 			ARRAY,
+			ATOMIC,
 			BOOL,
 			DOUBLE,
 			FLOAT,
@@ -72,7 +74,7 @@ public:
 	double asDouble() const;
 	float asFloat() const;
 	int asInt() const;
-	const std::string& asString() const;
+	std::string asString() const;
 	unsigned int asUInt() const;
 
 	bool isArray() const;
@@ -138,7 +140,7 @@ private:
 	std::string	mKey;
 	Members		mMembers;
 	Type::E		mType;
-	std::string mValue;
+	AtomicValue	mValue;
 };
 
 

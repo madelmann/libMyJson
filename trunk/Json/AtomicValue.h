@@ -25,7 +25,8 @@ public:
 		DOUBLE,
 		FLOAT,
 		INT,
-		STRING
+		STRING,
+		UINT
 	} type;
 
 public:	// Construction
@@ -35,6 +36,7 @@ public:	// Construction
 	AtomicValue(float val);
 	AtomicValue(int val);
 	AtomicValue(const std::string& val);
+	AtomicValue(size_t val);
 
 	~AtomicValue();
 
@@ -44,6 +46,7 @@ public:	// Assignment
 	void operator=(float val);
 	void operator=(int val);
 	void operator=(const std::string& val);
+	void operator=(size_t val);
 
 public:	// Conversion
 	bool toBool() const;
@@ -51,6 +54,7 @@ public:	// Conversion
 	float toFloat() const;
 	int toInt() const;
 	std::string toStdString() const;
+	size_t toUInt() const;
 
 private:
 	union ValueHolder {
@@ -59,6 +63,7 @@ private:
 		float float_;
 		int int_;
 		//const char* string_;
+		size_t uint_;
 	};
 
 private:

@@ -32,6 +32,8 @@ int main(int argc, char** argv)
 		Json::Value parsed_object;
 		Json::Reader parser;
 		/*bool result =*/ parser.parse(to_parse, parsed_object);
+
+		//std::cout << parsed_object.toStyledString() << std::endl;
 	}
 
 	chrono::steady_clock::time_point end_time = chrono::steady_clock::now();

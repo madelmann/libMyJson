@@ -23,56 +23,51 @@ Value::Value()
 
 Value::Value(bool value)
 : mIsArrayElement(false),
-  mType(Type::BOOL)
+  mType(Type::BOOL),
+  mValue(value)
 {
-	if ( value ) {
-		mValue = "true";
-	}
-	else {
-		mValue = "false";
-	}
 }
 
 Value::Value(double value)
 : mIsArrayElement(false),
-  mType(Type::DOUBLE)
+  mType(Type::DOUBLE),
+  mValue(value)
 {
-	mValue = Utils::toString(value);
 }
 
 Value::Value(float value)
 : mIsArrayElement(false),
-  mType(Type::FLOAT)
+  mType(Type::FLOAT),
+  mValue(value)
 {
-	mValue = Utils::toString(value);
 }
 
 Value::Value(int value)
 : mIsArrayElement(false),
-  mType(Type::INT)
+  mType(Type::INT),
+  mValue(value)
 {
-	mValue = Utils::toString(value);
 }
 
 Value::Value(const char* value)
 : mIsArrayElement(false),
-  mType(Type::STRING)
+  mType(Type::STRING),
+  mValue(value)
 {
-	mValue = value;
 }
 
 Value::Value(const std::string& value)
 : mIsArrayElement(false),
-  mType(Type::STRING)
+  mType(Type::STRING),
+  mValue(value)
 {
-	mValue = value;
 }
 
 Value::Value(size_t value)
 : mIsArrayElement(false),
-  mType(Type::UINT)
+  mType(Type::UINT),
+  mValue(value)
 {
-	mValue = Utils::toString(value);
 }
 
 void Value::addMember(const std::string& key, const Value& member)
@@ -93,52 +88,40 @@ void Value::addMember(const std::string& key, const Value& member)
 
 bool Value::asBool() const
 {
-	if ( mValue != "false" ) {
-		return true;
-	}
-
-	return false;
+	return mValue.toBool();
 }
 
 double Value::asDouble() const
 {
-	std::stringstream ss(mValue);
-	double v;
-	ss >> v;
-
-	return v;
+	return mValue.toDouble();
 }
 
 float Value::asFloat() const
 {
-	std::stringstream ss(mValue);
-	float v;
-	ss >> v;
-
-	return v;
+	return mValue.toFloat();
 }
 
 int Value::asInt() const
 {
-	std::stringstream ss(mValue);
-	int v;
-	ss >> v;
-
-	return v;
+	return mValue.toInt();
 }
 
-const std::string& Value::asString() const
+std::string Value::asString() const
 {
-	return mValue;
+	switch ( mType ) {
+		case Type::ARRAY:
+		case Type::OBJECT:
+			return "";
+		default:
+			return mValue.toStdString();
+	}
+
+	return "";
 }
 
 unsigned int Value::asUInt() const
 {
-	std::stringstream ss(mValue);
-	unsigned int v;
-	ss >> v;
-
-	return v;
+	return mValue.toUInt();
 }
 
 Value::Members::iterator Value::find(const std::string& key)
@@ -308,6 +291,7 @@ std::string Value::printValue(const Value& v) const
 	switch ( v.type() ) {
 		case Value::Type::NIL:
 			return "null";
+		case Value::Type::ATOMIC:
 		case Value::Type::BOOL:
 		case Value::Type::DOUBLE:
 		case Value::Type::FLOAT:

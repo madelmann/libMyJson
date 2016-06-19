@@ -49,10 +49,10 @@ int toInt(const std::string& value)
 	return v;
 }
 
-unsigned int toUInt(const std::string& value)
+size_t toUInt(const std::string& value)
 {
 	std::stringstream ss(value);
-	unsigned int v;
+	size_t v;
 	ss >> v;
 
 	return v;

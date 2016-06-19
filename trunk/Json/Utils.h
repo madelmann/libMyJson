@@ -22,7 +22,7 @@ bool toBool(const std::string& value);
 double toDouble(const std::string& value);
 float toFloat(const std::string& value);
 int toInt(const std::string& value);
-unsigned int toUInt(const std::string& value);
+size_t toUInt(const std::string& value);
 
 template <class T>
 inline std::string toString(const T& t)

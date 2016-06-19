@@ -59,6 +59,7 @@ std::string Writer::toString(const Value& root, unsigned int indents)
 			case Value::Type::NIL:
 				result += "null";
 				break;
+			case Value::Type::ATOMIC:
 			case Value::Type::BOOL:
 			case Value::Type::DOUBLE:
 			case Value::Type::FLOAT:

@@ -52,7 +52,7 @@ Value::Value(int value)
 Value::Value(const char* value)
 : mIsArrayElement(false),
   mType(Type::STRING),
-  mValue(value)
+  mValue(std::string(value))
 {
 }
 
@@ -113,10 +113,10 @@ std::string Value::asString() const
 		case Type::OBJECT:
 			return "";
 		default:
-			return mValue.toStdString();
+			break;
 	}
 
-	return "";
+	return mValue.toStdString();
 }
 
 unsigned int Value::asUInt() const

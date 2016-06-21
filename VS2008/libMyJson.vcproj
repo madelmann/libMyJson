@@ -161,6 +161,14 @@
 	</References>
 	<Files>
 		<File
+			RelativePath="..\Json\AtomicValue.cpp"
+			>
+		</File>
+		<File
+			RelativePath="..\Json\AtomicValue.h"
+			>
+		</File>
+		<File
 			RelativePath="..\Json\Exceptions.h"
 			>
 		</File>
@@ -242,6 +250,10 @@
 		</File>
 		<File
 			RelativePath="..\Json\Types.h"
+			>
+		</File>
+		<File
+			RelativePath="..\Json\Utils.cpp"
 			>
 		</File>
 		<File

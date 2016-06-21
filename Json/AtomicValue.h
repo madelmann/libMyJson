@@ -35,6 +35,7 @@ public:	// Construction
 	AtomicValue(double val);
 	AtomicValue(float val);
 	AtomicValue(int val);
+	AtomicValue(const char* val);
 	AtomicValue(const std::string& val);
 	AtomicValue(size_t val);
 
@@ -45,6 +46,7 @@ public:	// Assignment
 	void operator=(double val);
 	void operator=(float val);
 	void operator=(int val);
+	void operator=(const char* val);
 	void operator=(const std::string& val);
 	void operator=(size_t val);
 
@@ -62,7 +64,6 @@ private:
 		double double_;
 		float float_;
 		int int_;
-		//const char* string_;
 		size_t uint_;
 	};
 

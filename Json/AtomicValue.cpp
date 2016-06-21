@@ -20,7 +20,6 @@ AtomicValue::AtomicValue()
 	mValue.double_ = 0.0;
 	mValue.float_ = 0.f;
 	mValue.int_ = 0;
-	//mValue.string_ = 0;
 	mValue.uint_ = 0;
 
 	type = UNKOWN;
@@ -31,7 +30,6 @@ AtomicValue::AtomicValue(bool val)
 	mValue.double_ = 0.0;
 	mValue.float_ = 0.f;
 	mValue.int_ = 0;
-	//mValue.string_ = 0;
 	mValue.uint_ = 0;
 
 	type = BOOL;
@@ -43,7 +41,6 @@ AtomicValue::AtomicValue(double val)
 	mValue.bool_ = false;
 	mValue.float_ = 0.f;
 	mValue.int_ = 0;
-	//mValue.string_ = 0;
 	mValue.uint_ = 0;
 
 	type = DOUBLE;
@@ -55,7 +52,6 @@ AtomicValue::AtomicValue(float val)
 	mValue.bool_ = false;
 	mValue.double_ = 0.0;
 	mValue.int_ = 0;
-	//mValue.string_ = 0;
 	mValue.uint_ = 0;
 
 	type = FLOAT;
@@ -67,11 +63,22 @@ AtomicValue::AtomicValue(int val)
 	mValue.bool_ = false;
 	mValue.double_ = 0.0;
 	mValue.float_ = 0.f;
-	//mValue.string_ = 0;
 	mValue.uint_ = 0;
 
 	type = INT;
 	mValue.int_ = val;
+}
+
+AtomicValue::AtomicValue(const char* val)
+{
+	mValue.bool_ = false;
+	mValue.double_ = 0.0;
+	mValue.float_ = 0.f;
+	mValue.int_ = 0;
+	mValue.uint_ = 0;
+
+	type = STRING;
+	mStringValue = std::string(val);
 }
 
 AtomicValue::AtomicValue(const std::string& val)
@@ -83,7 +90,6 @@ AtomicValue::AtomicValue(const std::string& val)
 	mValue.uint_ = 0;
 
 	type = STRING;
-	//mValue.string_ = val.c_str();
 	mStringValue = val;
 }
 
@@ -93,9 +99,8 @@ AtomicValue::AtomicValue(size_t val)
 	mValue.double_ = 0.0;
 	mValue.float_ = 0.f;
 	mValue.int_ = 0;
-	//mValue.string_ = 0;
 
-	type = INT;
+	type = UINT;
 	mValue.uint_ = val;
 }
 
@@ -135,12 +140,19 @@ void AtomicValue::operator=(int val)
 	mValue.int_ = val;
 }
 
+void AtomicValue::operator=(const char* val)
+{
+	mValue.double_ = 0.0;
+
+	type = STRING;
+	mStringValue = std::string(val);
+}
+
 void AtomicValue::operator=(const std::string& val)
 {
 	mValue.double_ = 0.0;
 
 	type = STRING;
-	//mValue.string_ = val.c_str();
 	mStringValue = val;
 }
 
@@ -148,7 +160,7 @@ void AtomicValue::operator=(size_t val)
 {
 	mStringValue = "";
 
-	type = INT;
+	type = UINT;
 	mValue.uint_ = val;
 }
 
@@ -156,11 +168,11 @@ bool AtomicValue::toBool() const
 {
 	switch ( type ) {
 		case BOOL: return mValue.bool_;
-		case DOUBLE: return (bool)mValue.double_;
-		case FLOAT: return (bool)mValue.float_;
-		case INT: return (bool)mValue.int_;
+		case DOUBLE: return (mValue.double_ != 0.0);
+		case FLOAT: return (mValue.float_ != 0.f);
+		case INT: return (mValue.int_ != 0);
 		case STRING: return Utils::toBool(mStringValue);
-		case UINT: return (bool)mValue.uint_;
+		case UINT: return (mValue.uint_ != 0);
 		default: break;
 	}
 

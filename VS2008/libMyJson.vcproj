@@ -18,7 +18,7 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(SolutionDir)\"
+			OutputDirectory="$(SolutionDir)\..\Libs"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
 			CharacterSet="2"
@@ -88,7 +88,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)\..\Projects\Libs"
+			OutputDirectory="$(SolutionDir)\..\Libs"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
 			CharacterSet="2"
@@ -163,6 +163,22 @@
 		<File
 			RelativePath="..\Json\AtomicValue.cpp"
 			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					ObjectFile="$(IntDir)\Json\"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					ObjectFile="$(IntDir)\Json\"
+				/>
+			</FileConfiguration>
 		</File>
 		<File
 			RelativePath="..\Json\AtomicValue.h"
@@ -198,6 +214,30 @@
 		</File>
 		<File
 			RelativePath="..\Json\Parser.h"
+			>
+		</File>
+		<File
+			RelativePath="..\Json\Reader.cpp"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					ObjectFile="$(IntDir)\Json\"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					ObjectFile="$(IntDir)\Json\"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="..\Json\Reader.h"
 			>
 		</File>
 		<File
@@ -255,6 +295,22 @@
 		<File
 			RelativePath="..\Json\Utils.cpp"
 			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					ObjectFile="$(IntDir)\Json\"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					ObjectFile="$(IntDir)\Json\"
+				/>
+			</FileConfiguration>
 		</File>
 		<File
 			RelativePath="..\Json\Utils.h"

@@ -1,10 +1,16 @@
 
-#include <chrono>
+#ifdef _WIN32
+#	include <stdlib.h>
+#	include <windows.h>
+
+	typedef unsigned int uint32_t;
+#else
+#	include <chrono>
+#endif
+
 #include <iostream>
 #include <fstream>
-#include <Json.h>
-
-using namespace std;
+#include <../Json/Json.h>
 
 static const uint32_t ntimes = 10;
 
@@ -14,7 +20,7 @@ int main(int argc, char** argv)
 		return -1;
 	}
 
-	ifstream inputfile(argv[1]);
+	std::ifstream inputfile(argv[1]);
 	std::string to_parse;
 
 	inputfile.seekg(0, std::ios::end);
@@ -24,7 +30,11 @@ int main(int argc, char** argv)
 	to_parse.assign((std::istreambuf_iterator<char>(inputfile)),
 					 std::istreambuf_iterator<char>());
 
-	chrono::steady_clock::time_point start_time = chrono::steady_clock::now();
+#ifdef _WIN32
+	long start = GetTickCount();
+#else
+	std::chrono::steady_clock::time_point start_time = std::chrono::steady_clock::now();
+#endif
 
 	for ( unsigned int i = 0; i < ntimes; ++i ) {
 		//std::cout << "i/ntimes = " << i << "/" << ntimes << std::endl;
@@ -36,9 +46,16 @@ int main(int argc, char** argv)
 		//std::cout << parsed_object.toStyledString() << std::endl;
 	}
 
-	chrono::steady_clock::time_point end_time = chrono::steady_clock::now();
-	chrono::microseconds us = chrono::duration_cast<chrono::microseconds>(end_time - start_time);
+#ifdef _WIN32
+	long diff = GetTickCount() - start;
 
-	cout << "[+] Finished successfully with an average of: " << (us.count() / ntimes) / 1000 << " ms\n";
+	std::cout << "[+] Finished successfully with an average of: " << diff / ntimes << " ms\n" << std::endl;
+
+#else
+	std::chrono::steady_clock::time_point end_time = std::chrono::steady_clock::now();
+	std::chrono::microseconds us = chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
+
+	std::cout << "[+] Finished successfully with an average of: " << (us.count() / ntimes) / 1000 << " ms\n" << std::endl;
+#endif
 }
 

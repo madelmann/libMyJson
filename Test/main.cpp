@@ -53,7 +53,7 @@ int main(int argc, char** argv)
 
 #else
 	std::chrono::steady_clock::time_point end_time = std::chrono::steady_clock::now();
-	std::chrono::microseconds us = chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
+	std::chrono::microseconds us = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
 
 	std::cout << "[+] Finished successfully with an average of: " << (us.count() / ntimes) / 1000 << " ms\n" << std::endl;
 #endif

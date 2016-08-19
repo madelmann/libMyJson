@@ -90,9 +90,11 @@ public:
 	bool isArrayElement() const;
 	void isArrayElement(bool value);
 
-	void addMember(const std::string& key, const Value& member = Value());
+	void addElement(const Value& member);
+	void addMember(const std::string& key, const Value& member);
 	bool isMember(const std::string& member) const;
 	const Members& members() const;
+	bool removeElement(unsigned int idx);
 	bool removeMember(const std::string& member);
 
 	Members::iterator insert(const Value& value);

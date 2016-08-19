@@ -17,7 +17,8 @@ namespace Json {
 
 Value::Value()
 : mIsArrayElement(false),
-  mType(Type::NIL)
+  mType(Type::NIL),
+  mValue("null")
 {
 }
 
@@ -70,6 +71,21 @@ Value::Value(size_t value)
 {
 }
 
+void Value::addElement(const Value& member)
+{
+	if ( mType == Type::NIL ) {
+		mType = Type::ARRAY;
+	}
+	if ( mType != Type::ARRAY ) {
+		throw Exceptions::Exception("cannot retype value to JSON array");
+	}
+
+	Value v = member;
+	v.key(Utils::toString(mMembers.size()));
+
+	insert(v);
+}
+
 void Value::addMember(const std::string& key, const Value& member)
 {
 	if ( find(key) != mMembers.end() ) {
@@ -78,6 +94,9 @@ void Value::addMember(const std::string& key, const Value& member)
 
 	if ( mType == Type::NIL ) {
 		mType = Type::OBJECT;
+	}
+	if ( mType != Type::OBJECT ) {
+		throw Exceptions::Exception("cannot retype value to JSON object");
 	}
 
 	Value v = member;
@@ -126,12 +145,24 @@ unsigned int Value::asUInt() const
 
 Value::Members::iterator Value::find(const std::string& key)
 {
-	return std::find(mMembers.begin(), mMembers.end(), key);
+	for ( Members::iterator it = mMembers.begin(); it != mMembers.end(); ++it ) {
+		if ( it->key() == key ) {
+			return it;
+		}
+	}
+
+	return mMembers.end();
 }
 
 Value::Members::const_iterator Value::find(const std::string& key) const
 {
-	return std::find(mMembers.begin(), mMembers.end(), key);
+	for ( Members::const_iterator it = mMembers.begin(); it != mMembers.end(); ++it ) {
+		if ( it->key() == key ) {
+			return it;
+		}
+	}
+
+	return mMembers.end();
 }
 
 Value::Members::iterator Value::insert(const Value& value)
@@ -217,16 +248,13 @@ const Value::Members& Value::members() const
 	return mMembers;
 }
 
+bool Value::removeElement(unsigned int idx)
+{
+	return removeMember(Utils::toString(idx));
+}
+
 bool Value::removeMember(const std::string& member)
 {
-/*
-	for ( Members::iterator it = mMembers.begin(); it != mMembers.end(); ++it ) {
-		if ( it->key() == member ) {
-			mMembers.erase(it);
-			return true;
-		}
-	}
-*/
 	Members::iterator it = find(member);
 
 	if ( it != mMembers.end() ) {
@@ -467,7 +495,7 @@ Value Value::operator[] (const char* key) const
 		return (*it);
 	}
 
-	return Value();
+	throw Exceptions::InvalidKey("key");
 }
 
 Value Value::operator[] (const std::string& key) const
@@ -477,7 +505,7 @@ Value Value::operator[] (const std::string& key) const
 		return (*it);
 	}
 
-	return Value();
+	throw Exceptions::InvalidKey("key");
 }
 
 

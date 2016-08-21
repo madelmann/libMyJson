@@ -73,8 +73,6 @@ Value::Value(size_t value)
 
 void Value::addElement(const Value& member)
 {
-	//mType = Type::ARRAY;
-
 	if ( mType == Type::NIL ) {
 		mType = Type::ARRAY;
 	}
@@ -93,8 +91,6 @@ void Value::addMember(const std::string& key, const Value& member)
 	if ( find(key) != mMembers.end() ) {
 		throw Exceptions::DuplicateKey(key);
 	}
-
-	//mType = Type::OBJECT;
 
 	if ( mType == Type::NIL ) {
 		mType = Type::OBJECT;

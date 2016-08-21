@@ -6,6 +6,7 @@
 // Library includes
 
 // Project includes
+#include "Array.h"
 #include "Exceptions.h"
 #include "Parser.h"
 #include "Reader.h"

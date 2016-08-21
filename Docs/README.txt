@@ -13,7 +13,7 @@ Trivia:
 
 libMyJson is a small (as in lines of code) and leightweight (as in memory
 footprint) JSON implementation which has been written and used as a data
-interchange interface as part of a commercial project for a leading medical
+interchange format as part of a commercial project for a leading medical
 university in austria.
 
 

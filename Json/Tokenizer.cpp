@@ -60,18 +60,7 @@ Token Tokenizer::createToken(const std::string& con, const Token::Position& pos)
 	else if ( content == "*" ) { type = Token::Type::MATH_MULTI; }
 	else if ( content == "-" ) { type = Token::Type::MATH_SUBTRACT; }
 	else if ( content == "&" ) { type = Token::Type::STRING_ADD; }
-/*
-	if ( content == "," ) { type = Token::Type::COLON; }
-	else if ( content == ":" ) { type = Token::Type::DOUBLEPOINT; }
-	else if ( content == "'" ) { type = Token::Type::QUOTATION_SINGLE; }
-	else if ( content == "\"" ) { type = Token::Type::QUOTATION_DOUBLE; }
-	else if ( content == "[" ) { type = Token::Type::BRACKET_OPEN; }
-	else if ( content == "]" ) { type = Token::Type::BRACKET_CLOSE; }
-	else if ( content == "{" ) { type = Token::Type::BRACKET_CURLY_OPEN; }
-	else if ( content == "}" ) { type = Token::Type::BRACKET_CURLY_CLOSE; }
-	else if ( content == "(" ) { type = Token::Type::PARENTHESIS_OPEN; }
-	else if ( content == ")" ) { type = Token::Type::PARENTHESIS_CLOSE; }
-*/
+	else if ( isNull(content) ) { type = Token::Type::NIL; }
 	else if ( isBoolean(content) ) { type = Token::Type::BOOLEAN; }
 	else if ( isDigit(content) ) { type = Token::Type::CONSTANT; }
 	else if ( isLiteral(content) ) {
@@ -161,6 +150,11 @@ bool Tokenizer::isLiteral(const std::string& token) const
 	return false;
 }
 
+bool Tokenizer::isNull(const std::string& token) const
+{
+	return token == "null";
+}
+
 bool Tokenizer::isType(const std::string& token) const
 {
 	for ( StringList::const_iterator it = mTypes.begin(); it != mTypes.end(); ++it ) {
@@ -188,7 +182,6 @@ void Tokenizer::process()
 	std::string token;
 
 	bool isMultiLineComment = false;
-	bool isPreprocessorDirective = false;
 	bool isSingleLineComment = false;
 	bool isString = false;
 
@@ -199,10 +192,6 @@ void Tokenizer::process()
 		char thisChar = mContent[offset++];
 		size_t i = DELIMITERS.find_first_of(thisChar);
 
-		// preprocessor directives as single line comments '#'
-		if ( !isMultiLineComment && !isSingleLineComment && !isString && thisChar == '#' ) {
-			isPreprocessorDirective = true;
-		}
 		// single line comments '//'
 		if ( !isMultiLineComment && !isSingleLineComment && !isString && lastChar == '/' && thisChar == '/' ) {
 			isSingleLineComment = true;
@@ -210,14 +199,10 @@ void Tokenizer::process()
 			mTokens.pop_back();
 		}
 		// multiline comments '/*'
-		if ( !isMultiLineComment && !isSingleLineComment && !isString && lastChar == '/' && thisChar == '*' ) {
+		else if ( !isMultiLineComment && !isSingleLineComment && !isString && lastChar == '/' && thisChar == '*' ) {
 			isMultiLineComment = true;
 			// remove last inserted token
 			mTokens.pop_back();
-		}
-
-		if ( isPreprocessorDirective ) {
-			// not in use atm so just ignore it
 		}
 		// don't parse comments
 		else if ( !isMultiLineComment && !isSingleLineComment ) {
@@ -260,7 +245,6 @@ void Tokenizer::process()
 		// counting lines and columns
 		pos.column++;
 		if ( thisChar == '\n' ) {
-			isPreprocessorDirective = false;
 			isSingleLineComment = false;
 			pos.line++;
 			pos.column = 1;
@@ -275,7 +259,6 @@ void Tokenizer::process()
 
 	removeWhiteSpaces();		// remove all whitespaces
 	replace();
-	//classify();
 
 	mActiveToken = mTokens.begin();
 }

@@ -5,6 +5,7 @@
 // Library includes
 
 // Project includes
+#include "Exceptions.h"
 
 // Namespace declarations
 
@@ -37,28 +38,12 @@ std::string Writer::indent(unsigned int num)
 std::string Writer::toString(const Value& root, unsigned int indents)
 {
 	std::string result;
-	if ( indents == 0 && root.isObject() ) {
-		result += "{" + mWhiteSpaceStart;
-	}
 
 	Value::Members members = root.members();
 
-	Value::Members::const_iterator it = members.begin();
-	while ( it != members.end() ) {
-		result += indent(indents);
-		if ( root.isObject() ) {
-			result += indent(1);
-		}
-
-		result += "\"";
-		result += (*it).key();
-		result += "\": ";
-
-		Value value = (*it);
-		switch ( value.type() ) {
+	if ( members.empty() ) {
+		switch ( root.type() ) {
 			case Value::Type::NIL:
-				result += "null";
-				break;
 			case Value::Type::ATOMIC:
 			case Value::Type::BOOL:
 			case Value::Type::DOUBLE:
@@ -66,59 +51,59 @@ std::string Writer::toString(const Value& root, unsigned int indents)
 			case Value::Type::INT:
 			case Value::Type::UINT:
 			case Value::Type::UNDEFINED:
-				if ( !value.isArrayElement() )
-					result += value.asString();
+				result += root.asString();
 				break;
 			case Value::Type::STRING:
-				if ( !value.isArrayElement() )
-					result += "\"" + value.asString() + "\"";
+				result += "\"" + root.asString() + "\"";
 				break;
-			case Value::Type::ARRAY:
-				if ( !value.size() ) {
-					result += "[" + mWhiteSpaceStart;
-					result += mWhiteSpaceStart + "]" + mWhiteSpaceEnd;
-				}
-				else {
-					result += "[" + mWhiteSpaceStart;
+			case Value::Type::ARRAY: {
+				result += "[" + mWhiteSpaceStart;
+				result += toString(root, indents + 1);
+				result += mWhiteSpaceStart + indent(indents + 1) + "]";
+			} break;
+			case Value::Type::OBJECT: {
+				result += "{" + mWhiteSpaceStart;
+				result += toString(root, indents + 1);
+				result += mWhiteSpaceStart + indent(indents + 1) + "}";
+			} break;
+			default:
+				throw Exceptions::Exception("invalid node type found");
+		}
+	}
+	else {
+		if ( root.isObject() ) {
+			result += "{";
+		}
+		else {
+			result += "[";
+		}
+		result += mWhiteSpaceStart;
 
-					Value::Members members = value.members();
-					Value::Members::const_iterator it = members.begin();
+		for ( Value::Members::const_iterator it = members.begin(); it != members.end(); ) {
+			result += indent(indents + 1);
 
-					while ( it != members.end() ) {
-						result += indent(indents + 2);
-						result += (*it).asString();
-						it++;
+			if ( root.isObject() ) {
+				result += "\"";
+				result += (*it).key();
+				result += "\": ";
+			}
 
-						if ( it != members.end() ) {
-							result += "," + mWhiteSpaceEnd;
-						}
-					}
-
-					result += mWhiteSpaceStart + indent(indents + 1) + "]";
-				}
-				break;
-			case Value::Type::OBJECT:
-				if ( !value.size() ) {
-					result += "{ }" + mWhiteSpaceEnd;
-				}
-				else {
-					result += "{" + mWhiteSpaceStart;
-					result += toString(value, indents + 1);
-					result += mWhiteSpaceStart + indent(indents + 1) + "}";
-				}
-				break;
+			result += toString((*it), indents + 1);
+			if ( ++it != members.end() ) {
+				result += ",";
+			}
+			result += mWhiteSpaceEnd;
 		}
 
-		it++;
-
-		if ( it != members.end() ) {
-			result += "," + mWhiteSpaceEnd;
+		result += indent(indents);
+		if ( root.isObject() ) {
+			result += "}";
+		}
+		else {
+			result += "]";
 		}
 	}
 
-	if ( indents == 0 && root.isObject() ) {
-		result += mWhiteSpaceEnd + "}";
-	}
 	return result;
 }
 

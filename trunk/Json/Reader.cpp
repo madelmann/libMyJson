@@ -46,33 +46,27 @@ bool Reader::parseArray(Tokenizer *t, Value& root)
 	}
 
 	while ( t->hasNext() && t->getToken().type() != Token::Type::BRACKET_CLOSE ) {
+		Value value;
+
 		if ( t->getToken().type() == Token::Type::BRACKET_CURLY_OPEN ) {
 			t->next();
 
 			// start reading object
-			Value value;
 			parseObject(t, value);
-			value.isArrayElement(true);
-
-			root.insert(value);
 		}
 		else if ( t->getToken().type() == Token::Type::BRACKET_OPEN ) {
 			t->next();
 
 			// start reading array
-			Value value;
 			parseArray(t, value);
-			value.isArrayElement(true);
-
-			root.insert(value);
 		}
 		else {
 			// start reading element
-			Value value(t->getToken().content());
-			value.isArrayElement(true);
-
-			root.insert(value);
+			value = Value(t->getToken().content());
 		}
+
+		value.isArrayElement(true);
+		root.addElement(value);
 
 		t->next();
 		if ( t->getToken().type() == Token::Type::COLON ) {

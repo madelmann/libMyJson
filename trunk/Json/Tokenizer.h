@@ -49,17 +49,15 @@ private:	// Tokenizer
 	bool isBoolean(const std::string& token) const;
 	bool isDigit(const std::string& token) const;
 	bool isLiteral(const std::string& token) const;
+	bool isNull(const std::string& token) const;
 	bool isType(const std::string& token) const;
 	bool isWhiteSpace(const std::string& token) const;
 
-private:	// Preprocessor
-	bool isDefined(const std::string& token) const;
-
 private:
-	TokenIterator	mActiveToken;
-	std::string	mContent;
-	TokenList	mTokens;
-	StringList	mTypes;
+	TokenIterator mActiveToken;
+	std::string mContent;
+	TokenList mTokens;
+	StringList mTypes;
 };
 
 

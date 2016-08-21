@@ -5,7 +5,7 @@ JSON (JavaScript Object Notation) is a lightweight data-interchange format.
 It can represent integer, real number, string, an ordered sequence of 
 value, and a collection of name/value pairs.
 
-libMyJson is a simple API to manipulate JSON value, handle serialization 
+libMyJson is a simple API to manipulate JSON values, handle serialization 
 and unserialization to string.
 
 Trivia:

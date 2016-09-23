@@ -17,7 +17,7 @@ namespace Json {
 
 bool Reader::parse(const std::string& msg, Value& root)
 {
-	bool result = false;
+	bool result = true;
 
 	Tokenizer tokenizer(msg);
 	tokenizer.process();
@@ -39,11 +39,11 @@ bool Reader::parse(const std::string& msg, Value& root)
 
 bool Reader::parseArray(Tokenizer *t, Value& root)
 {
-	bool result = false;
-
 	if ( !t ) {
-		return result;
+		return false;
 	}
+
+	bool result = true;
 
 	while ( t->hasNext() && t->getToken().type() != Token::Type::BRACKET_CLOSE ) {
 		Value value;
@@ -52,21 +52,25 @@ bool Reader::parseArray(Tokenizer *t, Value& root)
 			t->next();
 
 			// start reading object
-			parseObject(t, value);
+			result = parseObject(t, value) && result;
 		}
 		else if ( t->getToken().type() == Token::Type::BRACKET_OPEN ) {
 			t->next();
 
 			// start reading array
-			parseArray(t, value);
+			result = parseArray(t, value) && result;
 		}
 		else {
 			// start reading element
 			value = Value(t->getToken().content());
+
+			result = true && result;
 		}
 
 		value.isArrayElement(true);
 		root.addElement(value);
+
+		result = true && result;
 
 		t->next();
 		if ( t->getToken().type() == Token::Type::COLON ) {
@@ -79,11 +83,11 @@ bool Reader::parseArray(Tokenizer *t, Value& root)
 
 bool Reader::parseObject(Tokenizer* t, Value& root)
 {
-	bool result = false;
-
 	if ( !t ) {
-		return result;
+		return false;
 	}
+
+	bool result = true;
 
 	while ( t->hasNext() && t->getToken().type() != Token::Type::BRACKET_CURLY_CLOSE ) {
 		std::string key = t->getToken().content();
@@ -99,15 +103,17 @@ bool Reader::parseObject(Tokenizer* t, Value& root)
 			if ( t->getToken().type() == Token::Type::BRACKET_OPEN ) {
 				t->next();
 
-				parseArray(t, value);
+				result = parseArray(t, value) && result;
 			}
 			else if ( t->getToken().type() == Token::Type::BRACKET_CURLY_OPEN ) {
 				t->next();
 
-				parseObject(t, value);
+				result = parseObject(t, value) && result;
 			}
 			else {
 				value = Value(t->getToken().content());
+
+				result = true && result;
 			}
 
 			t->next();
@@ -115,9 +121,13 @@ bool Reader::parseObject(Tokenizer* t, Value& root)
 
 		root.addMember(key, value);
 
+		result = true && result;
+
 		if ( t->getToken().type() == Token::Type::COLON ) {
 			t->next();
 		}
+
+		result = true && result;
 	}
 
 	return result;

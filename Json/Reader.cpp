@@ -17,7 +17,7 @@ namespace Json {
 
 bool Reader::parse(const std::string& msg, Value& root)
 {
-	bool result = true;
+	bool result = false;
 
 	Tokenizer tokenizer(msg);
 	tokenizer.process();
@@ -45,7 +45,7 @@ bool Reader::parseArray(Tokenizer *t, Value& root)
 
 	bool result = true;
 
-	while ( t->hasNext() && t->getToken().type() != Token::Type::BRACKET_CLOSE ) {
+	while ( result && t->hasNext() && t->getToken().type() != Token::Type::BRACKET_CLOSE ) {
 		Value value;
 
 		if ( t->getToken().type() == Token::Type::BRACKET_CURLY_OPEN ) {
@@ -89,7 +89,7 @@ bool Reader::parseObject(Tokenizer* t, Value& root)
 
 	bool result = true;
 
-	while ( t->hasNext() && t->getToken().type() != Token::Type::BRACKET_CURLY_CLOSE ) {
+	while ( result && t->hasNext() && t->getToken().type() != Token::Type::BRACKET_CURLY_CLOSE ) {
 		std::string key = t->getToken().content();
 
 		Value value;
@@ -126,8 +126,6 @@ bool Reader::parseObject(Tokenizer* t, Value& root)
 		if ( t->getToken().type() == Token::Type::COLON ) {
 			t->next();
 		}
-
-		result = true && result;
 	}
 
 	return result;

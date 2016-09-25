@@ -1,6 +1,6 @@
 
-#ifndef JsonNG_Writer_h
-#define JsonNG_Writer_h
+#ifndef Json_Writer_h
+#define Json_Writer_h
 
 
 // Library includes

@@ -175,6 +175,9 @@ Value::Members::iterator Value::insert(const Value& value)
 #elif defined JSON_VALUE_VECTOR
 	mMembers.push_back(value);
 	return find(value.key());
+#elif defined JSON_VALUE_UNORDERED_SET
+	mMembers.insert(value);
+	return mMembers.end();
 #endif
 }
 

@@ -6,6 +6,7 @@
 //#define JSON_VALUE_MAP
 //#define JSON_VALUE_SET
 #define JSON_VALUE_VECTOR
+//#define JSON_VALUE_UNORDERED_SET
 
 // Library includes
 #include <string>
@@ -15,6 +16,8 @@
 #	include <set>
 #elif defined JSON_VALUE_VECTOR
 #	include <vector>
+#elif defined JSON_VALUE_UNORDERED_SET
+#	include <unordered_set>
 #endif
 
 // Project includes
@@ -37,6 +40,8 @@ public:
 	typedef std::set<Value> Members;
 #elif defined JSON_VALUE_VECTOR
 	typedef std::vector<Value> Members;
+#elif defined JSON_VALUE_UNORDERED_SET
+	typedef std::unordered_set<Value> Members;
 #endif
 
 	class Type

@@ -498,7 +498,7 @@ Value Value::operator[] (const char* key) const
 		return (*it);
 	}
 
-	throw Exceptions::InvalidKey("key");
+	throw Exceptions::InvalidKey(key);
 }
 
 Value Value::operator[] (const std::string& key) const
@@ -508,7 +508,7 @@ Value Value::operator[] (const std::string& key) const
 		return (*it);
 	}
 
-	throw Exceptions::InvalidKey("key");
+	throw Exceptions::InvalidKey(key);
 }
 
 

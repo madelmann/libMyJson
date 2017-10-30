@@ -1,20 +1,8 @@
-cmake_minimum_required(VERSION 2.6)
-
-# cmake policy changes. use "cmake --help-policy <policyid>" for details
-cmake_policy(SET CMP0000 OLD)
-if ( CMAKE_VERSION VERSION_LESS "2.6.4" )
-else()
-	cmake_policy(SET CMP0011 NEW)
-endif()
-
-# verbose makefiles
-# SET(CMAKE_VERBOSE_MAKEFILE ON)
-
 # directories
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)   # binary root
 SET(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)      # library root
 
-SET(CMAKE_CXX_FLAGS "-pedantic -fPIC -Wall -Werror -Wunused -Wno-long-long -Wnon-virtual-dtor -std=c++11")
+SET(CMAKE_CXX_FLAGS "-pedantic -fPIC -Wall -Werror -Wunused -Wno-long-long -Wnon-virtual-dtor -std=c++14")
 
 if( "${BUILD}" STREQUAL "" OR "${BUILD}" MATCHES "Debug")
 

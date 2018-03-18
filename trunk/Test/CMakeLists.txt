@@ -14,5 +14,6 @@ SET(DEPENDENCIES
 add_include(Json)
 
 SET(EXECUTABLE_OUTPUT_PATH ${EXECUTABLE_OUTPUT_PATH}/MyJsonTestApp)
-build_app(MyJsonTestApp "")
+SET(MODULES )
+build_app(MyJsonTestApp "${MODULES}")
 

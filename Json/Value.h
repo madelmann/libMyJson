@@ -136,11 +136,15 @@ private:
 	Members::iterator find(const std::string& key);
 	Members::const_iterator find(const std::string& key) const;
 
+	bool isEscapingRequired() const;
+
 	std::string printArray(const Value& v) const;
 	std::string printObject(const Value& v) const;
 
 	std::string printKey(const Value& v) const;
 	std::string printValue(const Value& v) const;
+
+	std::string toQuotedString(const std::string& value) const;
 
 private:
 	bool		mIsArrayElement;

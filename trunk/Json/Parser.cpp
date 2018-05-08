@@ -75,7 +75,7 @@ Value Parser::parseArray(Tokenizer *t)
 		}
 
 		t->next();
-		if ( t->getToken().type() == Token::Type::COLON ) {
+		if ( t->getToken().type() == Token::Type::COMMA ) {
 			t->next();
 		}
 	}
@@ -98,7 +98,7 @@ Value Parser::parseObject(Tokenizer *t)
 
 		if ( t->hasNext() ) {
 			t->next();
-			if ( t->getToken().type() == Token::Type::DOUBLEPOINT ) {
+			if ( t->getToken().type() == Token::Type::COLON ) {
 				t->next();
 			}
 
@@ -121,7 +121,7 @@ Value Parser::parseObject(Tokenizer *t)
 
 		result.addMember(key, v);
 
-		if ( t->getToken().type() == Token::Type::COLON ) {
+		if ( t->getToken().type() == Token::Type::COMMA ) {
 			t->next();
 		}
 	}

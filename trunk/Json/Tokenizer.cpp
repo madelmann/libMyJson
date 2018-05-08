@@ -40,9 +40,9 @@ Token Tokenizer::createToken(const std::string& con, const Token::Position& pos)
 
 	Token::Type::E type = Token::Type::IDENTIFER;
 
-	if ( content == "," ) { type = Token::Type::COLON; }
+	if ( content == "," ) { type = Token::Type::COMMA; }
 	else if ( content == "." ) { type = Token::Type::DOT; }
-	else if ( content == ":" ) { type = Token::Type::DOUBLEPOINT; }
+	else if ( content == ":" ) { type = Token::Type::COLON; }
 	else if ( content == ";" ) { type = Token::Type::SEMICOLON; }
 	else if ( content == "'" ) { type = Token::Type::QUOTATION_SINGLE; }
 	else if ( content == "\"" ) { type = Token::Type::QUOTATION_DOUBLE; }

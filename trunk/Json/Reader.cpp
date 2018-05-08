@@ -73,7 +73,7 @@ bool Reader::parseArray(Tokenizer *t, Value& root)
 		result = true && result;
 
 		t->next();
-		if ( t->getToken().type() == Token::Type::COLON ) {
+		if ( t->getToken().type() == Token::Type::COMMA ) {
 			t->next();
 		}
 	}
@@ -96,17 +96,21 @@ bool Reader::parseObject(Tokenizer* t, Value& root)
 
 		if ( t->hasNext() ) {
 			t->next();
-			if ( t->getToken().type() == Token::Type::DOUBLEPOINT ) {
+			if ( t->getToken().type() == Token::Type::COLON ) {
 				t->next();
 			}
 
 			if ( t->getToken().type() == Token::Type::BRACKET_OPEN ) {
 				t->next();
 
+				value.type(Value::Type::ARRAY);
+
 				result = parseArray(t, value) && result;
 			}
 			else if ( t->getToken().type() == Token::Type::BRACKET_CURLY_OPEN ) {
 				t->next();
+
+				value.type(Value::Type::OBJECT);
 
 				result = parseObject(t, value) && result;
 			}
@@ -123,7 +127,7 @@ bool Reader::parseObject(Tokenizer* t, Value& root)
 
 		result = true && result;
 
-		if ( t->getToken().type() == Token::Type::COLON ) {
+		if ( t->getToken().type() == Token::Type::COMMA ) {
 			t->next();
 		}
 	}

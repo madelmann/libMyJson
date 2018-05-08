@@ -206,6 +206,20 @@ bool Value::isDouble() const
 	return (mType == Type::DOUBLE);
 }
 
+bool Value::isEscapingRequired() const
+{
+	char const* cur = mValue.toStdString().c_str();
+	const size_t end = mValue.toStdString().size();
+
+	for ( size_t idx = 0; idx < end; ++cur, ++idx ) {
+		if (*cur == '\\' || *cur == '\"' || *cur < ' '  || static_cast<unsigned char>(*cur) < 0x80) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
 bool Value::isFloat() const
 {
 	return (mType == Type::FLOAT);
@@ -331,7 +345,11 @@ std::string Value::printValue(const Value& v) const
 		case Value::Type::UNDEFINED:
 			return v.asString();
 		case Value::Type::STRING:
-			return "\"" + v.asString() + "\"";
+			if ( !isEscapingRequired() ) {
+				return "\"" + v.asString() + "\"";
+			}
+
+			return "\"" + toQuotedString(v.asString()) + "\"";
 		case Value::Type::ARRAY:
 			return printArray(v);
 		case Value::Type::OBJECT:
@@ -344,6 +362,52 @@ std::string Value::printValue(const Value& v) const
 size_t Value::size() const
 {
 	return mMembers.size();
+}
+
+std::string Value::toQuotedString(const std::string& value) const
+{
+	std::string result;
+
+	size_t maxsize = value.size() * 2 + 3; // allescaped+quotes+NULL
+
+	result.reserve(maxsize); // to avoid lots of mallocs
+
+	char const* c = mValue.toStdString().c_str();
+	const size_t end = mValue.toStdString().size();
+
+	for ( size_t idx = 0; idx < end; ++c, ++idx ) {
+		switch ( *c ) {
+			case '\"':
+				result += "\\\"";
+				break;
+			case '\\':
+				result += "\\\\";
+				break;
+			case '\b':
+				result += "\\b";
+				break;
+			case '\f':
+				result += "\\f";
+				break;
+			case '\n':
+				result += "\\n";
+				break;
+			case '\r':
+				result += "\\r";
+				break;
+			case '\t':
+				result += "\\t";
+				break;
+			// case '/':
+			// Even though \/ is considered a legal escape in JSON, a bare
+			// slash is also legal, so I see no reason to escape it.
+			default:
+				result += c;
+				break;
+		}
+	}
+
+	return result;
 }
 
 std::string Value::toString() const

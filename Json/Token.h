@@ -60,6 +60,7 @@ public:
 			BRACKET_OPEN,
 			CASE,
 			COLON,
+			COMMA,
 			COMPARE_EQUAL,
 			COMPARE_LESS,
 			COMPARE_LESS_EQUAL,
@@ -69,7 +70,6 @@ public:
 			CONSTANT,
 			DASH,
 			DOT,
-			DOUBLEPOINT,
 			ENDOFFILE,
 			EQUAL,
 			GREATER,
@@ -112,7 +112,8 @@ public:
 				case BRACKET_CURLY_OPEN: return "{";
 				case BRACKET_OPEN: return "[";
 				case CASE: return "case";
-				case COLON: return ",";
+				case COLON: return ":";
+				case COMMA: return ",";
 				case COMPARE_EQUAL: return "==";
 				case COMPARE_LESS: return "<";
 				case COMPARE_LESS_EQUAL: return "<=";
@@ -122,7 +123,6 @@ public:
 				case CONSTANT: return "number";
 				case DASH: return "-";
 				case DOT: return ".";
-				case DOUBLEPOINT: return ":";
 				case ENDOFFILE: return "<EOF>";
 				case EQUAL: return "=";
 				case GREATER: return ">";

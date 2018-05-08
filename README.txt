@@ -1,1 +1,2 @@
-made CMake happy again
+- fixed a major bug in Json::Write which made it impossible to write emty arrays (and most propably also empty objects)
+- [internal] renamed token COLON to COMMA and kicked 'DOUBLEPOINT' token

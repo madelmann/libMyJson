@@ -14,9 +14,9 @@ namespace Json {
 
 
 Writer::Writer()
-: mWhiteSpaceEnd(" "),
+: mWhiteSpaceEnd(""),
   mWhiteSpaceIndent(""),
-  mWhiteSpaceStart(" ")
+  mWhiteSpaceStart("")
 {
 }
 
@@ -58,12 +58,29 @@ std::string Writer::toString(const Value& root, unsigned int indents)
 				break;
 			case Value::Type::ARRAY: {
 				result += "[" + mWhiteSpaceStart;
-				result += toString(root, indents + 1);
+
+				size_t size = members.size();
+				for ( size_t index = 0; index < size; ++index ) {
+					if ( index > 0 ) {
+						result += ",";
+					}
+
+					result += toString(members[index], indents + 1);
+				}
+
 				result += mWhiteSpaceStart + indent(indents + 1) + "]";
 			} break;
 			case Value::Type::OBJECT: {
 				result += "{" + mWhiteSpaceStart;
-				result += toString(root, indents + 1);
+
+				for ( Value::Members::const_iterator it = members.begin(); it != members.end(); ) {
+					if ( it != members.begin() ) {
+						result += ",";
+					}
+
+					result += toString((*it), indents + 1);
+				}
+
 				result += mWhiteSpaceStart + indent(indents + 1) + "}";
 			} break;
 			default:
@@ -85,7 +102,7 @@ std::string Writer::toString(const Value& root, unsigned int indents)
 			if ( root.isObject() ) {
 				result += "\"";
 				result += (*it).key();
-				result += "\": ";
+				result += "\":";
 			}
 
 			result += toString((*it), indents + 1);

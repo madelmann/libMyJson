@@ -27,8 +27,8 @@ int main(int argc, char** argv)
 	to_parse.reserve(inputfile.tellg());
 	inputfile.seekg(0, std::ios::beg);
 
-	to_parse.assign((std::istreambuf_iterator<char>(inputfile)),
-					 std::istreambuf_iterator<char>());
+	to_parse.assign(std::istreambuf_iterator<char>(inputfile),
+					std::istreambuf_iterator<char>());
 
 #ifdef _WIN32
 	long start = GetTickCount();

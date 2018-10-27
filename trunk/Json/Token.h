@@ -48,10 +48,6 @@ public:
 	public:
 		enum E {
 			ASSIGN,
-			ASSIGN_ADD,
-			ASSIGN_DIVIDE,
-			ASSIGN_MULTI,
-			ASSIGN_SUBTRACT,
 			BACKSLASH,
 			BOOLEAN,
 			BRACKET_CLOSE,
@@ -94,17 +90,12 @@ public:
 			STRING_ADD,
 			TYPE,
 			UNKNOWN,
-			VISIBILITY,
 			WHITESPACE
 		};
 
 		static std::string convert(E e) {
 			switch ( e ) {
 				case ASSIGN: return "=";
-				case ASSIGN_ADD: return "+=";
-				case ASSIGN_DIVIDE: return "/=";
-				case ASSIGN_MULTI: return "*=";
-				case ASSIGN_SUBTRACT: return "-=";
 				case BACKSLASH: return "\\";
 				case BOOLEAN: return "boolean";
 				case BRACKET_CLOSE: return "]";
@@ -147,7 +138,6 @@ public:
 				case STRING_ADD: return "&";
 				case TYPE: return "TYPE";
 				case UNKNOWN: return "unknown";
-				case VISIBILITY: return "visibility";
 				case WHITESPACE: return "whitespace";
 			}
 

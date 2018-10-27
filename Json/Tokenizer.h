@@ -44,13 +44,11 @@ private:	// Tokenizer
 
 	void addToken(const Token& token);
 	void removeWhiteSpaces();
-	void replace();
 
 	bool isBoolean(const std::string& token) const;
 	bool isDigit(const std::string& token) const;
 	bool isLiteral(const std::string& token) const;
 	bool isNull(const std::string& token) const;
-	bool isType(const std::string& token) const;
 	bool isWhiteSpace(const std::string& token) const;
 
 private:

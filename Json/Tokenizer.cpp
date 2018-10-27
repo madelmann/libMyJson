@@ -155,17 +155,6 @@ bool Tokenizer::isNull(const std::string& token) const
 	return token == "null";
 }
 
-bool Tokenizer::isType(const std::string& token) const
-{
-	for ( StringList::const_iterator it = mTypes.begin(); it != mTypes.end(); ++it ) {
-		if ( (*it) == token ) {
-			return true;
-		}
-	}
-
-	return false;
-}
-
 bool Tokenizer::isWhiteSpace(const std::string& token) const
 {
 	return (WHITESPACES.find_first_of(token) != std::string::npos);
@@ -258,7 +247,6 @@ void Tokenizer::process()
 	addToken(Token(Token::Type::ENDOFFILE));
 
 	removeWhiteSpaces();		// remove all whitespaces
-	replace();
 
 	mActiveToken = mTokens.begin();
 }
@@ -269,99 +257,6 @@ void Tokenizer::removeWhiteSpaces()
 
 	for ( TokenList::iterator it = mTokens.begin(); it != mTokens.end(); ++it ) {
 		if ( (*it).type() != Token::Type::WHITESPACE ) {
-			tmp.push_back((*it));
-		}
-	}
-
-	mTokens = tmp;
-}
-
-void Tokenizer::replace()
-{
-	TokenList tmp;
-	Token::Type::E lastType = Token::Type::UNKNOWN;
-	TokenIterator token = mTokens.begin();
-
-	// try to combine all compare tokens
-	while ( token != mTokens.end() ) {
-		bool changed = false;
-		Token::Type::E activeType = token->type();
-
-		if ( activeType == Token::Type::EQUAL ) {
-			if ( lastType == Token::Type::EQUAL ) {
-				// ==
-				changed = true;
-				// remove last added token ...
-				tmp.pop_back();
-				// ... and add COMPARE_EQUAL instead
-				tmp.push_back(Token(Token::Type::COMPARE_EQUAL, "=="));
-			}
-			else if ( lastType == Token::Type::GREATER ) {
-				// >=
-				changed = true;
-				// remove last added token ...
-				tmp.pop_back();
-				// ... and add COMPARE_GREATER_EQUAL instead
-				tmp.push_back(Token(Token::Type::COMPARE_GREATER_EQUAL, ">="));
-			}
-			else if ( lastType == Token::Type::LESS ) {
-				// <=
-				changed = true;
-				// remove last added token ...
-				tmp.pop_back();
-				// ... and add COMPARE_LESS_EQUAL instead
-				tmp.push_back(Token(Token::Type::COMPARE_LESS_EQUAL, "<="));
-			}
-			else if ( lastType == Token::Type::MATH_ADD ) {
-				// +=
-				changed = true;
-				// remove last added token ...
-				tmp.pop_back();
-				// ... and add ASSIGN_ADD instead
-				tmp.push_back(Token(Token::Type::ASSIGN_ADD, "+="));
-			}
-			else if ( lastType == Token::Type::MATH_DIV ) {
-				// /=
-				changed = true;
-				// remove last added token ...
-				tmp.pop_back();
-				// ... and add ASSIGN_DIVIDE instead
-				tmp.push_back(Token(Token::Type::ASSIGN_DIVIDE, "/="));
-			}
-			else if ( lastType == Token::Type::MATH_MULTI ) {
-				// *=
-				changed = true;
-				// remove last added token ...
-				tmp.pop_back();
-				// ... and add ASSIGN_MULTI instead
-				tmp.push_back(Token(Token::Type::ASSIGN_MULTI, "*="));
-			}
-			else if ( lastType == Token::Type::MATH_SUBTRACT ) {
-				// -=
-				changed = true;
-				// remove last added token ...
-				tmp.pop_back();
-				// ... and add ASSIGN_SUBTRACT instead
-				tmp.push_back(Token(Token::Type::ASSIGN_SUBTRACT, "-="));
-			}
-		}
-
-		lastType = token->type();
-		if ( !changed ) {
-			tmp.push_back((*token));
-		}
-
-		token++;
-	}
-
-	mTokens = tmp;
-	tmp.clear();
-
-	for ( TokenIterator it = mTokens.begin(); it != mTokens.end(); ++it ) {
-		if ( (*it).type() == Token::Type::EQUAL ) {
-			tmp.push_back(Token(Token::Type::ASSIGN, (*it).content(), (*it).position()));
-		}
-		else {
 			tmp.push_back((*it));
 		}
 	}

@@ -32,4 +32,3 @@ SET(DEPENDENCIES
 add_include(Json)
 
 build_static_lib(Json "")
-

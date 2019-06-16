@@ -1,9 +1,25 @@
 
+function(build_shared_lib target modules)
+
+        _handle_modules_pre_linker("${modules}")
+
+        add_library(${target} SHARED ${SOURCES} ${HEADERS})
+
+        LIST(LENGTH DEPENDENCIES num_dependencies)
+        if ( num_dependencies GREATER 0 )
+                target_link_libraries(${target} ${DEPENDENCIES})
+        endif()
+
+        _handle_modules_post_linker("${modules}" ${target})
+
+endfunction()
+
+
 function(build_static_lib target modules)
 
         _handle_modules_pre_linker("${modules}")
 
-        add_library(${target} ${SOURCES} ${HEADERS})
+        add_library(${target} STATIC ${SOURCES} ${HEADERS})
 
         LIST(LENGTH DEPENDENCIES num_dependencies)
         if ( num_dependencies GREATER 0 )
@@ -13,6 +29,7 @@ function(build_static_lib target modules)
         _handle_modules_post_linker("${modules}" ${target})
 
 endfunction()
+
 
 function(build_app target modules)
 
@@ -29,9 +46,11 @@ function(build_app target modules)
 
 endfunction()
 
+
 function(_handle_modules_pre_linker modules)
 
 endfunction()
+
 
 function(_handle_modules_post_linker modules target)
 

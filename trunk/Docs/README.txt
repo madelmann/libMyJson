@@ -6,12 +6,12 @@ It can represent integer, real number, string, an ordered sequence of
 value, and a collection of name/value pairs.
 
 libMyJson is a simple API to manipulate JSON values, handle serialization 
-and unserialization to string.
+and deserialization to string.
 
 Trivia:
 -------
 
-libMyJson is a small (as in lines of code) and leightweight (as in memory
+libMyJson is a small (as in lines of code) and lightweight (as in memory
 footprint) JSON implementation which has been written and used as a data
 interchange format as part of a commercial project for a leading medical
 university in austria.

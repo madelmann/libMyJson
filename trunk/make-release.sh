@@ -1,5 +1,5 @@
 
-EXCLUDES="--exclude=*.sh --exclude=cmake-build*"
+EXCLUDES="--exclude=.* --exclude=*.sh --exclude=cmake-build*"
 RELEASE="libMyJson-`cat version`_`svnversion`.tar.gz"
 
 echo "Packing files for release ${RELEASE} ..."

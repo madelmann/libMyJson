@@ -29,6 +29,9 @@ SET(HEADERS
 SET(DEPENDENCIES
 )
 
+SET(MODULES
+)
+
 add_include(Json)
 
-build_static_lib(Json "")
+build_static_lib(Json "${MODULES}")

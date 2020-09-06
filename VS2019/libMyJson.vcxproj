@@ -65,7 +65,7 @@
       <OmitDefaultLibName>false</OmitDefaultLibName>
     </ClCompile>
     <Lib>
-      <OutputFile>..\Libs\$(ProjectName)_debug.lib</OutputFile>
+      <OutputFile>..\Libs\$(ProjectName).lib</OutputFile>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>

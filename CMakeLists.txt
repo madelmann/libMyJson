@@ -1,6 +1,6 @@
-PROJECT(libMyJson)
+cmake_minimum_required(VERSION 3.10)
 
-cmake_minimum_required(VERSION 3.0)
+PROJECT(libMyJson)
 
 # cmake policy changes. use "cmake --help-policy <policyid>" for details
 if ( CMAKE_VERSION VERSION_LESS "3.0.0" )
